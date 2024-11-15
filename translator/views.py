@@ -10,7 +10,9 @@ from translator.serializers import TranslationSerializer
 class FrenchSpanishTranslationViewSet(APIView):
 
     def get(self, request):
-        return Response(data={}, status=None)
+        translations = Translation.objects.filter(source_language='FR', target_language='ES')
+        serializer = TranslationSerializer(translations, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
     
     def post(self, request):
         return Response(data={}, status=None)
@@ -24,7 +26,9 @@ class FrenchSpanishTranslationViewSet(APIView):
 class FrenchEnglishTranslationViewSet(APIView):
 
     def get(self, request):
-        return Response(data={}, status=None)
+        translations = Translation.objects.filter(source_language='FR', target_language='EN')
+        serializer = TranslationSerializer(translations, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
     
     def post(self, request):
         return Response(data={}, status=None)
@@ -34,6 +38,13 @@ class FrenchEnglishTranslationViewSet(APIView):
     
     def delete(self, request, pk):
         return Response(data={}, status=None)
+
+class AllTranslation(APIView):
+
+    def get(self, request):
+        data = Translation.objects. all()
+        serialized_data = TranslationSerializer(data, many=True)
+        return Response(data=serialized_data.data, status=None)
 
 def index(request):
     return render(request, 'index.html', context={})
