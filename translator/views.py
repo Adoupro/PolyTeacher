@@ -53,6 +53,7 @@ class AllTranslation(APIView):
         return Response(data=serialized_data.data, status=status.HTTP_200_OK)
 
 class TranslateTextView(APIView):
+    @swagger_auto_schema(request_body=TranslationSerializer)
     def post(self, request):
         try:
             source_text = request.data.get("source_text", None)
